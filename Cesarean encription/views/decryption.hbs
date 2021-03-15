@@ -1,0 +1,82 @@
+<div id="decrypt" class="container" style="justify-items: center; max-width:500px; max-height: auto">
+    {{#if success}}
+        <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">Decryption completed successfully!</h4><i class="far fa-laugh-wink"></i>
+            <p>Encryption message: {{encrypt}}</p>
+            <p>Key: {{decryptionKey}}</p>
+            <hr>
+            <p class="mb-0">Decryption message: {{decryptionMessage}}</p>
+        </div>
+    {{/if}}
+
+    {{#if successAttack}}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>The attack was carried out!</strong> You can see the result below!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {{/if}}
+
+    {{#if error}}
+        <div class="alert alert-danger" role="alert" style="text-align: center">
+            {{error}}
+        </div>
+    {{/if}}
+
+    {{#if warning}}
+        <div class="alert alert-warning" role="alert">
+            {{warning}}
+        </div>
+    {{/if}}
+
+    {{#if attack}}
+         <form id="data" action="/attack" method="post">
+            <div class="input-group mb-3">
+                <span class="input-group-text">Encryption message</span>
+                <textarea class="form-control" name="attackEncryption" aria-label="With textarea" placeholder="Write encryntion message..." required></textarea>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" name="ukr" type="checkbox" value="" id="flexCheckIndeterminate">
+                <label class="form-check-label" for="flexCheckIndeterminate">
+                    Ukrainian alphabet
+                </label>
+            </div>
+            <div class="d-flex justify-content-center mt-4">
+                <br><button form="data" type="submit" class="btn btn-outline-danger btn-lg">Attack</button>
+            </div>
+         </form>
+    {{else}}
+        <div>
+            <form id="data" action="/decrypt" method="post">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Encryption message</span>
+                    <textarea class="form-control" name="encrypt" aria-label="With textarea" placeholder="Write encryntion message..." required></textarea>
+                </div>
+                <div class="input-group has-validation mb-3">
+                    <span class="input-group-text" id="inputGroupPrepend"><i class="fas fa-key"></i></span>
+                    <input type="text" class="form-control" name="key" id="validationKeyname" aria-describedby="inputGroupPrepend" placeholder="Input key..." required>
+                </div>
+                <div class="form-check">
+                        <input class="form-check-input" name="ukr" type="checkbox" value="" id="flexCheckIndeterminate">
+                        <label class="form-check-label" for="flexCheckIndeterminate">
+                            Ukrainian alphabet
+                        </label>
+                </div>
+                
+            </form>
+            <div class="d-flex justify-content-center mt-4">
+
+                    <br><button form="data" type="submit" class="btn btn-outline-success btn-lg mb-3" style="margin-right: auto">Decryption</button>
+                    <a href="/attack" style="margin-top: 1rem;">Do you want to try a simulated attack?</a>
+            </div>
+        </div>
+    {{/if}}
+
+    {{#if successAttack}}
+        <div class="alert alert-primary mt-4" role="alert">
+            <h4 class="alert-heading mb-4">Search result:</h4>
+            {{#each attackResults}}
+                <p>{{this}}</p>
+            {{/each}}
+        </div>
+    {{/if}}
+</div>
